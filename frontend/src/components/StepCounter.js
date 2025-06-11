@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { Link } from 'react-router-dom';
 
 const StepCounter = ({ token, onLogout }) => {
@@ -11,9 +11,7 @@ const StepCounter = ({ token, onLogout }) => {
   // Function to fetch historical data
   const fetchHistory = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/steps', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await api.get('/api/steps');
       setHistory(res.data);
     } catch (err) {
       console.error('Error fetching history:', err);
@@ -47,11 +45,7 @@ const StepCounter = ({ token, onLogout }) => {
     if (steps > 0) {
       try {
         console.log('Sending steps to server:', steps);
-        const response = await axios.post(
-          'http://localhost:5001/api/steps',
-          { step_count: steps },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        const response = await api.post('/api/steps', { step_count: steps });
         console.log('Server response:', response.data);
         // Refresh history after saving
         fetchHistory();
