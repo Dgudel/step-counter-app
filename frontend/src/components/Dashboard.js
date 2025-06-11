@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { Link } from 'react-router-dom';
 
 const Dashboard = ({ token }) => {
@@ -11,9 +11,7 @@ const Dashboard = ({ token }) => {
     const fetchUserStats = async () => {
       try {
         console.log('Fetching user stats...');
-        const response = await axios.get('http://localhost:5001/api/stats/users', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const response = await api.get('/api/stats/users');
         console.log('Received user stats:', response.data);
         
         if (Array.isArray(response.data)) {
