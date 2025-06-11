@@ -1,0 +1,15 @@
+External URL: postgresql://step_tracker_user:lVe4XgrA39WpBN6H52Nh7XhGGKxxFbBp@dpg-d14nvfs9c44c738b4u7g-a.oregon-postgres.render.com/step_tracker
+
+PSQL Command: PGPASSWORD=lVe4XgrA39WpBN6H52Nh7XhGGKxxFbBp psql -h dpg-d14nvfs9c44c738b4u7g-a.oregon-postgres.render.com -U step_tracker_user step_tracker
+
+Internal database URL: postgresql://step_tracker_user:lVe4XgrA39WpBN6H52Nh7XhGGKxxFbBp@dpg-d14nvfs9c44c738b4u7g-a/step_tracker
+
+Password: lVe4XgrA39WpBN6H52Nh7XhGGKxxFbBp
+
+Username: step_tracker_user
+
+Database: step_tracker
+
+Port: 5432
+
+Hostname: dpg-d14nvfs9c44c738b4u7g-a
