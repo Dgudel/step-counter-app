@@ -21,13 +21,23 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/steps', require('./routes/steps'));
 app.use('/api/stats', require('./routes/stats'));
 
-// Serve static assets in production
+// Serve static assets in production only if frontend build exists
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/build')));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../frontend', 'build', 'index.html'));
-  });
+  const frontendBuildPath = path.join(__dirname, '../frontend/build');
+  const indexPath = path.join(frontendBuildPath, 'index.html');
+  
+  // Only serve static files if the build directory exists
+  if (require('fs').existsSync(frontendBuildPath)) {
+    app.use(express.static(frontendBuildPath));
+    app.get('*', (req, res) => {
+      res.sendFile(indexPath);
+    });
+  } else {
+    // If no frontend build, just serve a simple message
+    app.get('/', (req, res) => {
+      res.send('Backend API is running');
+    });
+  }
 }
 
 const PORT = process.env.PORT || 5001;
