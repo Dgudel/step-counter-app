@@ -8,25 +8,44 @@ const router = express.Router();
 // @desc    Register a user
 router.post('/register', async (req, res) => {
   const { username, password } = req.body;
+  console.log('Registration attempt for username:', username);
+  
   try {
     // Check if user exists
+    console.log('Checking if user exists...');
     let user = await db.query('SELECT * FROM users WHERE username = $1', [username]);
+    console.log('User check result:', user.rows);
+    
     if (user.rows.length > 0) {
+      console.log('User already exists');
       return res.status(400).json({ msg: 'User already exists' });
     }
 
+    console.log('Generating salt...');
     const salt = await bcrypt.genSalt(10);
+    console.log('Hashing password...');
     const password_hash = await bcrypt.hash(password, salt);
 
+    console.log('Inserting new user...');
     const newUser = await db.query(
       'INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING id, username',
       [username, password_hash]
     );
+    console.log('New user created:', newUser.rows[0]);
 
     res.json(newUser.rows[0]);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
+    console.error('Registration error:', {
+      message: err.message,
+      stack: err.stack,
+      code: err.code,
+      detail: err.detail
+    });
+    res.status(500).json({ 
+      error: 'Server error',
+      message: err.message,
+      detail: err.detail
+    });
   }
 });
 
