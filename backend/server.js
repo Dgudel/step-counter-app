@@ -15,11 +15,12 @@ console.log('Environment:', {
 // CORS configuration
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
-    ? process.env.CORS_ORIGIN 
+    ? ['https://step-counter-app-black.vercel.app', process.env.CORS_ORIGIN]
     : 'http://localhost:3000',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Range', 'X-Content-Range']
 };
 
 console.log('CORS Options:', corsOptions);
