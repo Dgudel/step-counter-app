@@ -5,6 +5,13 @@ require('dotenv').config();
 
 const app = express();
 
+// Log environment variables (excluding sensitive ones)
+console.log('Environment:', {
+  NODE_ENV: process.env.NODE_ENV,
+  CORS_ORIGIN: process.env.CORS_ORIGIN,
+  PORT: process.env.PORT
+});
+
 // CORS configuration
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
@@ -12,7 +19,17 @@ const corsOptions = {
     : 'http://localhost:3000',
   credentials: true
 };
+
+console.log('CORS Options:', corsOptions);
+
 app.use(cors(corsOptions));
+
+// Add request logging middleware
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+  console.log('Headers:', req.headers);
+  next();
+});
 
 app.use(express.json({ extended: false }));
 
@@ -40,6 +57,15 @@ if (process.env.NODE_ENV === 'production') {
   }
 }
 
+// Add error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(500).json({ error: 'Internal Server Error', message: err.message });
+});
+
 const PORT = process.env.PORT || 5001;
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`)); 
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
+  console.log('Server is ready to accept connections');
+}); 
