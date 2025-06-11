@@ -48,7 +48,7 @@ if (process.env.NODE_ENV === 'production') {
   // Only serve static files if the build directory exists
   if (require('fs').existsSync(frontendBuildPath)) {
     app.use(express.static(frontendBuildPath));
-    app.get('*', (req, res) => {
+    app.get(/^(?!\/api\/).*/, (req, res) => {
       res.sendFile(indexPath);
     });
   } else {
