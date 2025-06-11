@@ -8,36 +8,46 @@ const Register = () => {
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
-  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const onChange = e => {
+    console.log('Form field changed:', e.target.name);
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const onSubmit = async e => {
     e.preventDefault();
     setError('');
     setSuccess('');
     try {
+      console.log('Starting registration process...');
       console.log('Environment:', process.env.NODE_ENV);
       console.log('API URL:', process.env.REACT_APP_API_URL);
-      console.log('Making registration request...');
+      console.log('Form data:', formData);
       
       const response = await api.post('/api/auth/register', formData);
       console.log('Registration response:', response);
       
       setSuccess('Registracija sėkminga! Prašome prisijungti.');
-      setTimeout(() => navigate('/login'), 2000); // Redirect to login after 2 seconds
+      setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
       console.error('Registration error:', err);
       if (err.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.error('Error response:', err.response.data);
+        console.error('Error response:', {
+          status: err.response.status,
+          data: err.response.data,
+          headers: err.response.headers
+        });
         setError(err.response.data.msg || 'Registracija nepavyko');
       } else if (err.request) {
-        // The request was made but no response was received
-        console.error('No response received:', err.request);
+        console.error('No response received:', {
+          request: err.request,
+          message: err.message
+        });
         setError('Nepavyko sujungti su serveriu. Prašome įsitikinkite, ar backend yra veikiantis.');
       } else {
-        // Something happened in setting up the request that triggered an Error
-        console.error('Error setting up request:', err.message);
+        console.error('Error setting up request:', {
+          message: err.message,
+          stack: err.stack
+        });
         setError('Įvyko neįtikėta klaida. Prašome bandyti dar kartą.');
       }
     }
@@ -47,8 +57,22 @@ const Register = () => {
     <div className="form-container">
       <h2>Registracija</h2>
       <form onSubmit={onSubmit}>
-        <input type="text" name="username" value={formData.username} onChange={onChange} placeholder="Vartotojo vardas" required />
-        <input type="password" name="password" value={formData.password} onChange={onChange} placeholder="Slaptažodis" required />
+        <input 
+          type="text" 
+          name="username" 
+          value={formData.username} 
+          onChange={onChange} 
+          placeholder="Vartotojo vardas" 
+          required 
+        />
+        <input 
+          type="password" 
+          name="password" 
+          value={formData.password} 
+          onChange={onChange} 
+          placeholder="Slaptažodis" 
+          required 
+        />
         <button type="submit">Registruotis</button>
       </form>
       {error && <p className="error">{error}</p>}
