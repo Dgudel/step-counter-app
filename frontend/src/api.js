@@ -7,6 +7,11 @@ console.log('NODE_ENV:', process.env.NODE_ENV);
 // Use the environment variable if available, otherwise fallback to localhost
 const baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 
+// Add a build-time check
+if (process.env.NODE_ENV === 'production' && !process.env.REACT_APP_API_URL) {
+  console.error('REACT_APP_API_URL is not set in production!');
+}
+
 console.log('Using baseURL:', baseURL);
 
 const api = axios.create({
