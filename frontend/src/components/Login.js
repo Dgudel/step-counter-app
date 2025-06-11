@@ -13,19 +13,29 @@ const Login = ({ setToken }) => {
     e.preventDefault();
     setError('');
     try {
+      console.log('Attempting to login...');
+      console.log('API URL:', process.env.REACT_APP_API_URL);
+      console.log('Request data:', formData);
+      
       const res = await api.post('/api/auth/login', formData);
+      console.log('Login response:', res.data);
+      
       setToken(res.data.token);
       navigate('/');
     } catch (err) {
+      console.error('Login error:', err);
       if (err.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
+        console.error('Error response:', err.response.data);
         setError(err.response.data.msg || 'Login failed');
       } else if (err.request) {
         // The request was made but no response was received
+        console.error('No response received:', err.request);
         setError('Unable to connect to the server. Please make sure the backend is running.');
       } else {
         // Something happened in setting up the request that triggered an Error
+        console.error('Error setting up request:', err.message);
         setError('An unexpected error occurred. Please try again.');
       }
     }
