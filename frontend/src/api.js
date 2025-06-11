@@ -2,11 +2,10 @@ import axios from 'axios';
 
 // Log the environment variable for debugging
 console.log('API Configuration - REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
+console.log('NODE_ENV:', process.env.NODE_ENV);
 
-// Ensure we're using the correct URL in production
-const baseURL = process.env.NODE_ENV === 'production'
-  ? process.env.REACT_APP_API_URL
-  : 'http://localhost:5001';
+// Use the environment variable if available, otherwise fallback to localhost
+const baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 
 console.log('Using baseURL:', baseURL);
 

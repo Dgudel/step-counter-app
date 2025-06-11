@@ -15,19 +15,29 @@ const Register = () => {
     setError('');
     setSuccess('');
     try {
-      await api.post('/api/auth/register', formData);
+      console.log('Environment:', process.env.NODE_ENV);
+      console.log('API URL:', process.env.REACT_APP_API_URL);
+      console.log('Making registration request...');
+      
+      const response = await api.post('/api/auth/register', formData);
+      console.log('Registration response:', response);
+      
       setSuccess('Registracija sėkminga! Prašome prisijungti.');
       setTimeout(() => navigate('/login'), 2000); // Redirect to login after 2 seconds
     } catch (err) {
+      console.error('Registration error:', err);
       if (err.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
+        console.error('Error response:', err.response.data);
         setError(err.response.data.msg || 'Registracija nepavyko');
       } else if (err.request) {
         // The request was made but no response was received
+        console.error('No response received:', err.request);
         setError('Nepavyko sujungti su serveriu. Prašome įsitikinkite, ar backend yra veikiantis.');
       } else {
         // Something happened in setting up the request that triggered an Error
+        console.error('Error setting up request:', err.message);
         setError('Įvyko neįtikėta klaida. Prašome bandyti dar kartą.');
       }
     }
