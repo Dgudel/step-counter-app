@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Login = ({ setToken }) => {
@@ -13,7 +13,7 @@ const Login = ({ setToken }) => {
     e.preventDefault();
     setError('');
     try {
-      const res = await axios.post('http://localhost:5001/api/auth/login', formData);
+      const res = await api.post('/api/auth/login', formData);
       setToken(res.data.token);
       navigate('/');
     } catch (err) {
