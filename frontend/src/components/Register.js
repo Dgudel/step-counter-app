@@ -1,0 +1,51 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+
+const Register = () => {
+  const [formData, setFormData] = useState({ username: '', password: '' });
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
+
+  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const onSubmit = async e => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+    try {
+      await axios.post('http://localhost:5001/api/auth/register', formData);
+      setSuccess('Registracija sėkminga! Prašome prisijungti.');
+      setTimeout(() => navigate('/login'), 2000); // Redirect to login after 2 seconds
+    } catch (err) {
+      if (err.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        setError(err.response.data.msg || 'Registracija nepavyko');
+      } else if (err.request) {
+        // The request was made but no response was received
+        setError('Nepavyko sujungti su serveriu. Prašome įsitikinkite, ar backend yra veikiantis.');
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        setError('Įvyko neįtikėta klaida. Prašome bandyti dar kartą.');
+      }
+    }
+  };
+
+  return (
+    <div className="form-container">
+      <h2>Registracija</h2>
+      <form onSubmit={onSubmit}>
+        <input type="text" name="username" value={formData.username} onChange={onChange} placeholder="Vartotojo vardas" required />
+        <input type="password" name="password" value={formData.password} onChange={onChange} placeholder="Slaptažodis" required />
+        <button type="submit">Registruotis</button>
+      </form>
+      {error && <p className="error">{error}</p>}
+      {success && <p className="success">{success}</p>}
+      <p>Jau turite paskyrą? <Link to="/login">Prisijungti</Link></p>
+    </div>
+  );
+};
+
+export default Register;
