@@ -317,12 +317,15 @@ main {
   font-weight: 500;
   min-width: 150px;
   color: #333;
+  margin-right: 30px !important;
 }
 
 .history-content small {
   color: #666;
   font-size: 0.9em;
   white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: 20px;
 }
 
 .delete-button {
