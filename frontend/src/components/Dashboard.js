@@ -36,7 +36,7 @@ const Dashboard = ({ token }) => {
 
   return (
     <div className="dashboard-container">
-      <h2>Vartotojų statistika</h2>
+      <h2>Maldos žingsnių švieslentė</h2>
       <div className="dashboard-actions">
         <Link to="/" className="back-button">Grįžti į žingsnių skaičiuotuvą</Link>
       </div>
@@ -44,7 +44,7 @@ const Dashboard = ({ token }) => {
         <table className="stats-table">
           <thead>
             <tr>
-              <th>Vartotojo vardas</th>
+              <th>Vardas</th>
               <th>Iš viso žingsnių</th>
             </tr>
           </thead>
