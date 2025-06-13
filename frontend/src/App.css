@@ -293,8 +293,8 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  margin: 5px 0;
+  padding: 12px 15px;
+  margin: 8px 0;
   background-color: #f5f5f5;
   border-radius: 4px;
   transition: background-color 0.2s;
@@ -309,17 +309,20 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-right: 20px;
+  padding-right: 25px;
+  gap: 20px;
 }
 
 .history-content span {
   font-weight: 500;
-  min-width: 120px;
+  min-width: 150px;
+  color: #333;
 }
 
 .history-content small {
   color: #666;
   font-size: 0.9em;
+  white-space: nowrap;
 }
 
 .delete-button {
@@ -331,6 +334,7 @@ main {
   padding: 0 10px;
   opacity: 0.7;
   transition: opacity 0.2s;
+  min-width: 30px;
 }
 
 .delete-button:hover {
