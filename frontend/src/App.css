@@ -306,6 +306,20 @@ main {
 
 .history-content {
   flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 20px;
+}
+
+.history-content span {
+  font-weight: 500;
+  min-width: 120px;
+}
+
+.history-content small {
+  color: #666;
+  font-size: 0.9em;
 }
 
 .delete-button {
