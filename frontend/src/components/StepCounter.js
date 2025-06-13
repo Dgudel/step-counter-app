@@ -18,6 +18,20 @@ const StepCounter = ({ token, onLogout }) => {
     }
   };
 
+  // Function to delete a step session
+  const handleDelete = async (sessionId) => {
+    if (window.confirm('Ar tikrai norite ištrinti šį įrašą?')) {
+      try {
+        await api.delete(`/api/steps/${sessionId}`);
+        // Refresh the history after deletion
+        fetchHistory();
+      } catch (err) {
+        console.error('Error deleting step session:', err);
+        alert('Nepavyko ištrinti įrašo. Bandykite dar kartą.');
+      }
+    }
+  };
+
   // Fetch history on component mount
   useEffect(() => {
     fetchHistory();
@@ -83,9 +97,18 @@ const StepCounter = ({ token, onLogout }) => {
         {history.length > 0 ? (
           <ul>
             {history.map((session) => (
-              <li key={session.id}>
-                <span>{session.step_count} žingsnių</span>
-                <small>{new Date(session.end_time).toLocaleString()}</small>
+              <li key={session.id} className="history-item">
+                <div className="history-content">
+                  <span>{session.step_count} žingsnių</span>
+                  <small>{new Date(session.end_time).toLocaleString()}</small>
+                </div>
+                <button 
+                  onClick={() => handleDelete(session.id)} 
+                  className="delete-button"
+                  title="Ištrinti įrašą"
+                >
+                  ×
+                </button>
               </li>
             ))}
           </ul>
