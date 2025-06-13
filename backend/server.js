@@ -19,6 +19,7 @@ const corsOptions = {
         'https://step-counter-app-black.vercel.app',
         'https://step-counter-obsv478ds-dangis-gudelis-projects-6d28de63.vercel.app',
         'https://step-counter-o4yys5lrj-dangis-gudelis-projects-6d28de63.vercel.app',
+        'https://step-counter-cixx3snoz-dangis-gudelis-projects-6d28de63.vercel.app',
         process.env.CORS_ORIGIN
       ].filter(Boolean)
     : 'http://localhost:3000',
